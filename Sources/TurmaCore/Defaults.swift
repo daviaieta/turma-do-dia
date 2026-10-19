@@ -8,7 +8,7 @@ extension Config {
             schedule: .at(["07:00"])),
         Reminder(
             id: "mochila", character: "mochila", title: "Hora da", word: "mochila!",
-            subtitle: "Carregador, garrafa e o lanche. O lanche vai junto.",
+            subtitle: "Carregador, garrafa e chaves. Confere antes de sair.",
             schedule: .at(["07:30"], days: weekdays)),
         Reminder(
             id: "agua", character: "gota", title: "Hora da", word: "água!",
@@ -25,23 +25,23 @@ extension Config {
         Reminder(
             id: "jiu", character: "gi", title: "Hora do", word: "jiu!",
             subtitle: "Kimono e garrafa na mochila. Banho logo depois.",
-            schedule: .at(["17:00"], days: ["seg", "qua", "sex"])),
+            schedule: .at(["18:00"], days: ["ter", "qui"])),
         Reminder(
             id: "academia", character: "peso", title: "Hora da", word: "academia!",
             subtitle: "Aquece primeiro. Hoje é dia de força.",
-            schedule: .at(["17:00"], days: ["ter", "qui"])),
+            schedule: .at(["18:00"], days: ["seg", "qua", "sex"])),
         Reminder(
             id: "oculos", character: "lua", title: "Hora do", word: "óculos!",
             subtitle: "Óculos laranja e a tela com o brilho lá embaixo.",
-            schedule: .at(["19:00"])),
+            schedule: .at(["20:30"])),
         Reminder(
             id: "marca", character: "claquete", title: "Hora da", word: "marca!",
             subtitle: "Um passo só: gravar, editar ou agendar.",
-            schedule: .at(["20:00"], days: ["ter"])),
+            schedule: .at(["20:00"], days: ["qua"])),
         Reminder(
             id: "dormir", character: "travesseiro", title: "Hora de", word: "dormir!",
             subtitle: "Telas fora. Amanhã tem o Sol te esperando.",
-            schedule: .at(["21:30"])),
+            schedule: .at(["22:30"])),
     ])
 
     private static let weekdays = ["seg", "ter", "qua", "qui", "sex"]

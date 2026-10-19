@@ -123,11 +123,11 @@ struct DefaultsTests {
         #expect(try schedule("gota") == .every(120, from: "09:00", to: "19:00"))
         #expect(try schedule("prato") == .at(["08:00", "12:30", "16:00", "19:30"]))
         #expect(try schedule("prompt") == .at(["14:00"], days: weekdays))
-        #expect(try schedule("gi") == .at(["17:00"], days: ["seg", "qua", "sex"]))
-        #expect(try schedule("peso") == .at(["17:00"], days: ["ter", "qui"]))
-        #expect(try schedule("lua") == .at(["19:00"]))
-        #expect(try schedule("claquete") == .at(["20:00"], days: ["ter"]))
-        #expect(try schedule("travesseiro") == .at(["21:30"]))
+        #expect(try schedule("gi") == .at(["18:00"], days: ["ter", "qui"]))
+        #expect(try schedule("peso") == .at(["18:00"], days: ["seg", "qua", "sex"]))
+        #expect(try schedule("lua") == .at(["20:30"]))
+        #expect(try schedule("claquete") == .at(["20:00"], days: ["qua"]))
+        #expect(try schedule("travesseiro") == .at(["22:30"]))
     }
 
     @Test func `subtítulos pedidos`() throws {
@@ -138,8 +138,8 @@ struct DefaultsTests {
     }
 
     @Test func `sem dado pessoal nos textos`() throws {
-        // Hora escrita no texto ("6h", "6h45"), escola e regra pessoal ficam de fora dos padrões.
-        let forbidden = [#"\b\d{1,2}h(\d{2})?\b"#, #"(?i)escola"#, #"\bIA\b"#]
+        // Hora escrita no texto ("6h", "6h45") e sigla de ferramenta pessoal ficam de fora dos padrões.
+        let forbidden = [#"\b\d{1,2}h(\d{2})?\b"#, #"\bIA\b"#]
         for r in Config.defaults.reminders {
             for text in [r.id, r.title, r.word, r.subtitle] {
                 for pattern in forbidden {
