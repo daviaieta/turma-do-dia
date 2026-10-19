@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Turma do Dia</title>
+<link rel="stylesheet" href="card.css">
+</head>
+<body>
+<div class="notif" id="card" role="alert" aria-live="assertive">
+  <div class="tile" id="tile"></div>
+  <div class="t"><span id="title"></span><em id="word"></em><span class="s" id="sub"></span></div>
+  <div class="act">
+    <button class="go" id="done" type="button">Feito</button>
+    <button id="snooze" type="button">+10 min</button>
+  </div>
+</div>
+<script src="characters.js"></script>
+<script>
+(function () {
+  // Ponte com o app: o Swift chama window.turma.show/celebrate; a página responde por mensagens.
+  const post = (action) => {
+    try { window.webkit.messageHandlers.turma.postMessage({ action }); }
+    catch (e) { console.log('[turma]', action); }   // no navegador, só registra
+  };
+  const $ = (id) => document.getElementById(id);
+  let current = null, finishTimer = null;
+
+  function setTile(mood, jump) {
+    $('tile').innerHTML = Characters.svg(current.character, mood);
+    if (jump) $('tile').querySelector('svg').classList.add('jump');
+  }
+
+  window.turma = {
+    show(r) {
+      clearTimeout(finishTimer);
+      current = r;
+      document.documentElement.style.setProperty('--k', r.slow ? 3 : 1);
+      $('title').textContent = r.title;
+      $('word').textContent = r.word;
+      $('sub').textContent = r.subtitle || '';
+      $('snooze').textContent = '+' + (r.snoozeMinutes || 10) + ' min';
+      setTile('smile', false);
+      const card = $('card');
+      card.classList.remove('on'); void card.offsetWidth; card.classList.add('on');
+    },
+    celebrate() {
+      if (!current) return post('finished');
+      setTile('happy', true);
+      $('title').textContent = 'Boa!';
+      $('word').textContent = 'feito.';
+      $('sub').textContent = 'Continua assim.';
+      $('done').disabled = true; $('snooze').disabled = true;
+      finishTimer = setTimeout(() => post('finished'), 1800 * (Number(getComputedStyle(document.documentElement).getPropertyValue('--k')) || 1));
+    }
+  };
+
+  $('done').addEventListener('click', () => post('done'));
+  $('snooze').addEventListener('click', () => post('snooze'));
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') post('dismiss'); });
+
+  // Modo navegador (teste): card.html?demo=gota
+  const demo = new URLSearchParams(location.search).get('demo');
+  if (demo) {
+    document.body.style.background = '#E9E2D2';
+    window.turma.show({ character: demo, title: 'Hora da', word: 'água!', subtitle: 'Um copo agora, antes de esquecer.', snoozeMinutes: 10 });
+  } else {
+    post('ready');
+  }
+})();
+</script>
+</body>
+</html>
